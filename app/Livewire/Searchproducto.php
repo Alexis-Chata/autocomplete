@@ -12,20 +12,28 @@ class Searchproducto extends Component
 
     public function updatedQuery()
     {
-        $resultados = Producto::where("name", 'LIKE', '%' . $this->query . '%')
-            ->take(5)
-            ->get()
-            ->toArray();
+        $string = trim($this->query);
+        $string = str_replace([',', '.'], '', $string);
+        $string = preg_replace('/\s+/', ' ', $string);
+        $queries = explode(' ', $string);
 
+        $resultados = Producto::query();
+        foreach ($queries as $query) {
+            if (!empty($query)) {
+                $resultados->where('name', 'LIKE', '%' . $query . '%');
+            }
+        }
+
+        $resultados = $resultados->take(5)->get()->toArray();
         $this->dataresults = array_values($resultados);
         //dd($resultados, $this->query);
     }
 
     public function selectItem($id = null)
     {
-        $cgrupo = Producto::find($id);
-        if ($cgrupo) {
-            $this->query = $cgrupo->name;
+        $producto = Producto::find($id);
+        if ($producto) {
+            $this->query = $producto->name;
         }
     }
 
