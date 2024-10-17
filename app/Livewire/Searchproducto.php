@@ -32,6 +32,7 @@ class Searchproducto extends Component
     public function selectItem_producto($id = null)
     {
         $producto = Producto::find($id);
+        $this->dataresults_producto = [];
         if ($producto) {
             $this->query_producto = $producto->name;
         }
