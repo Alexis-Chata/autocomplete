@@ -7,12 +7,12 @@ use Livewire\Component;
 
 class Searchproducto extends Component
 {
-    public $query = '';
-    public $dataresults = [];
+    public $query_producto = '';
+    public $dataresults_producto = [];
 
-    public function updatedQuery()
+    public function updatedQueryProducto()
     {
-        $string = trim($this->query);
+        $string = trim($this->query_producto);
         $string = str_replace([',', '.'], '', $string);
         $string = preg_replace('/\s+/', ' ', $string);
         $queries = explode(' ', $string);
@@ -25,15 +25,15 @@ class Searchproducto extends Component
         }
 
         $resultados = $resultados->take(5)->get()->toArray();
-        $this->dataresults = array_values($resultados);
-        //dd($resultados, $this->query);
+        $this->dataresults_producto = array_values($resultados);
+        // dd($resultados, $this->query_producto);
     }
 
-    public function selectItem($id = null)
+    public function selectItem_producto($id = null)
     {
         $producto = Producto::find($id);
         if ($producto) {
-            $this->query = $producto->name;
+            $this->query_producto = $producto->name;
         }
     }
 
